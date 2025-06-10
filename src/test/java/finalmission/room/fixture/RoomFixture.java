@@ -1,6 +1,6 @@
 package finalmission.room.fixture;
 
-import finalmission.room.Room;
+import finalmission.room.domain.Room;
 
 public class RoomFixture {
 

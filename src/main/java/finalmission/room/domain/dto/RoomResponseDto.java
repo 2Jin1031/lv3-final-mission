@@ -1,6 +1,6 @@
 package finalmission.room.domain.dto;
 
-import finalmission.room.Room;
+import finalmission.room.domain.Room;
 
 public record RoomResponseDto(Long id, String name) {
 

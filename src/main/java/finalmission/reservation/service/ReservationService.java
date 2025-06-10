@@ -4,7 +4,7 @@ import finalmission.reservation.Reservation;
 import finalmission.reservation.domain.dto.ReservationRequestDto;
 import finalmission.reservation.domain.dto.ReservationResponseDto;
 import finalmission.reservation.repository.ReservationRepository;
-import finalmission.room.Room;
+import finalmission.room.domain.Room;
 import finalmission.room.exception.RoomBadRequestException;
 import finalmission.room.repository.RoomRepository;
 import finalmission.user.User;
