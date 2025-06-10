@@ -23,4 +23,10 @@ public class Reservation {
 
     @ManyToOne
     private User user;
+
+    public Reservation(String content, Room room, User user) {
+        this.content = content;
+        this.room = room;
+        this.user = user;
+    }
 }

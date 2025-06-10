@@ -1,0 +1,30 @@
+package finalmission.reservation.controller;
+
+import finalmission.reservation.domain.dto.ReservationRequestDto;
+import finalmission.reservation.domain.dto.ReservationResponseDto;
+import finalmission.reservation.service.ReservationService;
+import finalmission.user.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/reservation")
+public class ReservationController {
+
+    private final ReservationService reservationService;
+
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
+
+    @PostMapping("/member")
+    public ResponseEntity<ReservationResponseDto> create(@RequestBody ReservationRequestDto requestDto, User member) {
+        ReservationResponseDto responseDto = reservationService.create(requestDto, member);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+}
+
