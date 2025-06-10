@@ -2,8 +2,10 @@ package finalmission.auth.service;
 
 import finalmission.auth.dto.LoginDto;
 import finalmission.user.User;
+import finalmission.user.domain.dto.UserResponseDto;
 import finalmission.user.fixture.UserFixture;
 import finalmission.user.repository.UserRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -46,5 +48,25 @@ class AuthServiceTest {
             // then
             System.out.println(token);
         }
+    }
+    
+    @Nested
+    @DisplayName("토큰으로 유저 찾기")
+    class findMemberByToken {
+
+        @DisplayName("유효한 토큰으로 요청 시 유저를 찾을 수 있다.")
+        @Test
+        void findMemberByToken_success_byValidToken() {
+            // given
+            User savedUser = userRepository.save(user);
+            String token = authService.login(new LoginDto(savedUser.getEmail(), savedUser.getPassword()));
+
+            // when
+            UserResponseDto memberResponseDto = authService.findMemberByToken(token);
+
+            // then
+            Assertions.assertThat(memberResponseDto.email()).isEqualTo(savedUser.getEmail());
+        }
+        
     }
 }
