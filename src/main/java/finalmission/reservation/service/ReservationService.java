@@ -3,6 +3,7 @@ package finalmission.reservation.service;
 import finalmission.reservation.Reservation;
 import finalmission.reservation.domain.dto.ReservationRequestDto;
 import finalmission.reservation.domain.dto.ReservationResponseDto;
+import finalmission.reservation.exception.ReservationBadRequestException;
 import finalmission.reservation.repository.ReservationRepository;
 import finalmission.room.domain.Room;
 import finalmission.room.exception.RoomBadRequestException;
@@ -45,6 +46,18 @@ public class ReservationService {
         List<Reservation> reservations = reservationRepository.findAllByUser(member);
 
         return convertToReservationResponseDtos(reservations);
+    }
+
+    public ReservationResponseDto update(Long reservationId, ReservationRequestDto requestDto, User user) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(ReservationBadRequestException::new);
+        if (!reservation.getUser().equals(user)) {
+            throw new ReservationBadRequestException();
+        }
+
+        reservation.update(requestDto);
+        Reservation savedReservation = reservationRepository.save(reservation);
+        return convertToReservationResponseDto(savedReservation);
     }
 
     private Reservation convertToReservation(ReservationRequestDto requestDto, User member) {

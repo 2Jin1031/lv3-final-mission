@@ -128,4 +128,27 @@ class ReservationServiceTest {
             Assertions.assertThat(responseDto).hasSize(2);
         }
     }
+
+    @Nested
+    @DisplayName("유저가 자신의 예약 수정")
+    class update {
+
+        @DisplayName("유저는 자신의 예약일 시 수정할 수 있다")
+        @Test
+        void update_success() {
+            // given
+            String expectedContent = "updateContent";
+            Reservation savedReservation = reservationRepository.save(
+                    ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom, savedMember));
+            ReservationRequestDto requestDto = ReservationFixture.createReservationRequestDto(expectedContent,
+                    savedRoom.getId());
+
+            // when
+            ReservationResponseDto responseDto = reservationService.update(savedReservation.getId(), requestDto,
+                    savedMember);
+
+            // then
+            Assertions.assertThat(responseDto.content()).isEqualTo(expectedContent);
+        }
+    }
 }
