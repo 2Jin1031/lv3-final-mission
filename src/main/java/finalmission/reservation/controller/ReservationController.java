@@ -35,5 +35,11 @@ public class ReservationController {
         List<ReservationResponseDto> reservationResponseDtos = reservationService.findAllByRoomId(id);
         return ResponseEntity.status(HttpStatus.OK).body(reservationResponseDtos);
     }
+
+    @GetMapping("/member")
+    public ResponseEntity<List<ReservationResponseDto>> findAllByRoomId(User member) {
+        List<ReservationResponseDto> reservationResponseDtos = reservationService.findAllByUser(member);
+        return ResponseEntity.status(HttpStatus.OK).body(reservationResponseDtos);
+    }
 }
 

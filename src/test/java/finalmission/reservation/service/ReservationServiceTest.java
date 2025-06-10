@@ -97,4 +97,35 @@ class ReservationServiceTest {
             Assertions.assertThat(responseDto).hasSize(2);
         }
     }
+
+    @Nested
+    @DisplayName("유저애 해당하는 전체 예약 리스트를 조회")
+    class findAllByUser {
+
+        @DisplayName("유저에 해당하는 예약 목록이 없더라도 예외 없이 List.of()를 반환한다.")
+        @Test
+        void findAllByUser_success_byNoData() {
+            // when
+            List<ReservationResponseDto> responseDto = reservationService.findAllByUser(savedMember);
+
+            // then
+            Assertions.assertThat(responseDto).hasSize(0);
+        }
+
+        @DisplayName("유저에 해당하는 예약 목록을 전체 조회할 수 있다.")
+        @Test
+        void findAllByUser_success() {
+            // given
+            Reservation reservation1 = ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom, savedMember);
+            reservationRepository.save(reservation1);
+            Reservation reservation2 = ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom, savedMember);
+            reservationRepository.save(reservation2);
+
+            // when
+            List<ReservationResponseDto> responseDto = reservationService.findAllByUser(savedMember);
+
+            // then
+            Assertions.assertThat(responseDto).hasSize(2);
+        }
+    }
 }
