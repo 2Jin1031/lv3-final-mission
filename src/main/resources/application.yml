@@ -1,0 +1,17 @@
+spring:
+  h2:
+    console:
+      enabled: true
+
+  datasource:
+    url: jdbc:h2:mem:final-mission-jjimggong
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+
+security:
+  jwt:
+    token:
+      secret-key: 0000000000000000000000000000000
