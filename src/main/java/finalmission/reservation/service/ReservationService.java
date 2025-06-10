@@ -8,6 +8,8 @@ import finalmission.room.domain.Room;
 import finalmission.room.exception.RoomBadRequestException;
 import finalmission.room.repository.RoomRepository;
 import finalmission.user.User;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +33,14 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
+    public List<ReservationResponseDto> findAllByRoomId(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(RoomBadRequestException::new);
+        List<Reservation> reservations = reservationRepository.findAllByRoom(room);
+
+        return convertToReservationResponseDtos(reservations);
+    }
+
     private Reservation convertToReservation(ReservationRequestDto requestDto, User member) {
         Room room = roomRepository.findById(requestDto.roomId())
                 .orElseThrow(RoomBadRequestException::new);
@@ -39,5 +49,10 @@ public class ReservationService {
 
     private ReservationResponseDto convertToReservationResponseDto(Reservation savedReservation) {
         return ReservationResponseDto.of(savedReservation, savedReservation.getRoom(), savedReservation.getUser());
+    }
+
+    private List<ReservationResponseDto> convertToReservationResponseDtos(List<Reservation> reservations) {
+        return reservations.stream().map(this::convertToReservationResponseDto)
+                .collect(Collectors.toList());
     }
 }

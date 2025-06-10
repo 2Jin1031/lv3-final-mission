@@ -24,6 +24,9 @@ public class Reservation {
     @ManyToOne
     private User user;
 
+    protected Reservation() {
+    }
+
     public Reservation(String content, Room room, User user) {
         this.content = content;
         this.room = room;
