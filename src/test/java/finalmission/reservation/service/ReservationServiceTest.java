@@ -1,5 +1,6 @@
 package finalmission.reservation.service;
 
+import finalmission.member.exception.UserBadRequestException;
 import finalmission.reservation.Reservation;
 import finalmission.reservation.domain.dto.ReservationRequestDto;
 import finalmission.reservation.domain.dto.ReservationResponseDto;
@@ -57,7 +58,8 @@ class ReservationServiceTest {
         @Test
         void create_success() {
             // given
-            ReservationRequestDto requestDto = ReservationFixture.createReservationRequestDtoDefaultByRoomId(savedRoom.getId());
+            ReservationRequestDto requestDto = ReservationFixture.createReservationRequestDtoDefaultByRoomId(
+                    savedRoom.getId());
 
             // when
             ReservationResponseDto responseDto = reservationService.create(requestDto, savedMember);
@@ -85,9 +87,11 @@ class ReservationServiceTest {
         @Test
         void findAllByRoomId_success() {
             // given
-            Reservation reservation1 = ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom, savedMember);
+            Reservation reservation1 = ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom,
+                    savedMember);
             reservationRepository.save(reservation1);
-            Reservation reservation2 = ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom, savedMember);
+            Reservation reservation2 = ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom,
+                    savedMember);
             reservationRepository.save(reservation2);
 
             // when
@@ -116,9 +120,11 @@ class ReservationServiceTest {
         @Test
         void findAllByUser_success() {
             // given
-            Reservation reservation1 = ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom, savedMember);
+            Reservation reservation1 = ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom,
+                    savedMember);
             reservationRepository.save(reservation1);
-            Reservation reservation2 = ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom, savedMember);
+            Reservation reservation2 = ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom,
+                    savedMember);
             reservationRepository.save(reservation2);
 
             // when
@@ -149,6 +155,26 @@ class ReservationServiceTest {
 
             // then
             Assertions.assertThat(responseDto.content()).isEqualTo(expectedContent);
+        }
+
+        @DisplayName("유저 자신의 예약이 아닐 시 예외가 발생한다")
+        @Test
+        void update_throwsException_byNotOwnReservation() {
+            // given
+            String expectedContent = "updateContent";
+            Reservation savedReservation = reservationRepository.save(
+                    ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom, savedMember));
+            ReservationRequestDto requestDto = ReservationFixture.createReservationRequestDto(expectedContent,
+                    savedRoom.getId());
+
+            User anotherMember = UserFixture.create("member2", "member", "member2@email.com", "member2password");
+            User savedAnotherMember = userRepository.save(anotherMember);
+
+            // when & then
+            Assertions.assertThatThrownBy(
+                    () -> reservationService.update(savedReservation.getId(), requestDto,
+                            savedAnotherMember)
+            ).isInstanceOf(UserBadRequestException.class);
         }
     }
 }
