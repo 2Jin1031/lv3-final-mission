@@ -177,4 +177,33 @@ class ReservationServiceTest {
             ).isInstanceOf(UserBadRequestException.class);
         }
     }
+
+//    public void deleteById(Long reservationId, User user) {
+//        Reservation reservation = getReservationById(reservationId);
+//        validateOwnReservation(user, reservation);
+//
+//        reservationRepository.deleteById(reservationId);
+//    }
+
+    @Nested
+    @DisplayName("예약 삭제")
+    class deleteById {
+
+        @DisplayName("유저는 본인 예약을 삭제할 수 있다")
+        @Test
+        void deleteById_success() {
+            // given
+            Reservation savedReservation = reservationRepository.save(
+                    ReservationFixture.createReservationDefaultByRoomIdAndUserId(savedRoom, savedMember));
+
+            // before then
+            Assertions.assertThat(reservationRepository.findAll()).hasSize(1);
+
+            // when
+            reservationService.deleteById(savedReservation.getId(), savedMember);
+
+            // then
+            Assertions.assertThat(reservationRepository.findAll()).hasSize(0);
+        }
+    }
 }
