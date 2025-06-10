@@ -1,6 +1,6 @@
 package finalmission.reservation;
 
-import finalmission.room.Room;
+import finalmission.room.domain.Room;
 import finalmission.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

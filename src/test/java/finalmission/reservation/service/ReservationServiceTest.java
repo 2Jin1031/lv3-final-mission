@@ -3,7 +3,7 @@ package finalmission.reservation.service;
 import finalmission.reservation.domain.dto.ReservationRequestDto;
 import finalmission.reservation.domain.dto.ReservationResponseDto;
 import finalmission.reservation.fixture.ReservationFixture;
-import finalmission.room.Room;
+import finalmission.room.domain.Room;
 import finalmission.room.fixture.RoomFixture;
 import finalmission.room.repository.RoomRepository;
 import finalmission.user.User;

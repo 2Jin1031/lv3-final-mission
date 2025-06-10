@@ -1,4 +1,4 @@
-package finalmission.room;
+package finalmission.room.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

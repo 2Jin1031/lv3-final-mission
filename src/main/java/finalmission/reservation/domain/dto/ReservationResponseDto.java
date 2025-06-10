@@ -2,7 +2,7 @@ package finalmission.reservation.domain.dto;
 
 
 import finalmission.reservation.Reservation;
-import finalmission.room.Room;
+import finalmission.room.domain.Room;
 import finalmission.room.domain.dto.RoomResponseDto;
 import finalmission.user.User;
 import finalmission.user.domain.dto.UserResponseDto;
