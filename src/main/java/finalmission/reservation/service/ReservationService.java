@@ -41,6 +41,12 @@ public class ReservationService {
         return convertToReservationResponseDtos(reservations);
     }
 
+    public List<ReservationResponseDto> findAllByUser(User member) {
+        List<Reservation> reservations = reservationRepository.findAllByUser(member);
+
+        return convertToReservationResponseDtos(reservations);
+    }
+
     private Reservation convertToReservation(ReservationRequestDto requestDto, User member) {
         Room room = roomRepository.findById(requestDto.roomId())
                 .orElseThrow(RoomBadRequestException::new);
