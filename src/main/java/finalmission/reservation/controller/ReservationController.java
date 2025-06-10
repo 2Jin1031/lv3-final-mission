@@ -1,5 +1,7 @@
 package finalmission.reservation.controller;
 
+import finalmission.global.email.MailDataDto;
+import finalmission.global.email.MailService;
 import finalmission.reservation.domain.dto.ReservationRequestDto;
 import finalmission.reservation.domain.dto.ReservationResponseDto;
 import finalmission.reservation.service.ReservationService;
@@ -20,14 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final MailService mailService;
 
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService, MailService mailService) {
         this.reservationService = reservationService;
+        this.mailService = mailService;
     }
 
     @PostMapping("/member")
     public ResponseEntity<ReservationResponseDto> create(@RequestBody ReservationRequestDto requestDto, User member) {
         ReservationResponseDto responseDto = reservationService.create(requestDto, member);
+        mailService.send(new MailDataDto("zkffl0@naver.com", "회의실 예약 승인 이메일 발송", responseDto.userResponseDto().email(), "예약이 성공적으로 처리되었습니다"));
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
@@ -49,7 +54,7 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
-    @DeleteMapping("/{reservationId")
+    @DeleteMapping("/{reservationId}")
     public ResponseEntity<Void> deleteById(@PathVariable(value = "reservationId") Long reservationId, User user) {
         reservationService.deleteById(reservationId, user);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
