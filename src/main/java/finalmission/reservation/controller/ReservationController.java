@@ -41,5 +41,11 @@ public class ReservationController {
         List<ReservationResponseDto> reservationResponseDtos = reservationService.findAllByUser(member);
         return ResponseEntity.status(HttpStatus.OK).body(reservationResponseDtos);
     }
+
+    @PostMapping("/{reservationId}")
+    public ResponseEntity<ReservationResponseDto> update(@PathVariable(value = "reservationId") Long reservationId, @RequestBody ReservationRequestDto requestDto, User user) {
+        ReservationResponseDto responseDto = reservationService.update(reservationId, requestDto, user);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
 }
 

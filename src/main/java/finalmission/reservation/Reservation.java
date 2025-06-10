@@ -1,5 +1,6 @@
 package finalmission.reservation;
 
+import finalmission.reservation.domain.dto.ReservationRequestDto;
 import finalmission.room.domain.Room;
 import finalmission.user.User;
 import jakarta.persistence.Entity;
@@ -31,5 +32,9 @@ public class Reservation {
         this.content = content;
         this.room = room;
         this.user = user;
+    }
+
+    public void update(ReservationRequestDto requestDto) {
+        this.content = requestDto.content();
     }
 }

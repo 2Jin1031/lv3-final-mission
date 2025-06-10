@@ -7,8 +7,12 @@ import finalmission.user.User;
 
 public class ReservationFixture {
 
+    public static ReservationRequestDto createReservationRequestDto(String content, Long roomId) {
+        return new ReservationRequestDto(content, roomId);
+    }
+
     public static ReservationRequestDto createReservationRequestDtoDefaultByRoomId(Long roomId) {
-        return new ReservationRequestDto("content1", roomId);
+        return createReservationRequestDto("content1", roomId);
     }
 
     public static Reservation createReservationDefaultByRoomIdAndUserId(Room savedRoom, User savedMember) {
