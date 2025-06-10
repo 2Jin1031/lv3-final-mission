@@ -16,13 +16,19 @@ public class User {
 
     private String name;
 
+    private String role;
+
     @Column(unique = true)
     private String email;
 
     private String password;
 
-    public User(String name, String email, String password) {
+    protected User() {
+    }
+
+    public User(String name, String role, String email, String password) {
         this.name = name;
+        this.role = role;
         this.email = email;
         this.password = password;
     }
