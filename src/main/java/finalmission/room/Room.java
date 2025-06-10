@@ -15,4 +15,11 @@ public class Room {
     private Long id;
 
     private String name;
+
+    protected Room() {
+    }
+
+    public Room(String name) {
+        this.name = name;
+    }
 }
