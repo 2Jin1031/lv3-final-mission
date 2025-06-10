@@ -50,15 +50,30 @@ public class ReservationService {
     }
 
     public ReservationResponseDto update(Long reservationId, ReservationRequestDto requestDto, User user) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(ReservationBadRequestException::new);
-        if (!reservation.getUser().equals(user)) {
-            throw new UserBadRequestException();
-        }
+        Reservation reservation = getReservationById(reservationId);
+        validateOwnReservation(user, reservation);
 
         reservation.update(requestDto);
         Reservation savedReservation = reservationRepository.save(reservation);
         return convertToReservationResponseDto(savedReservation);
+    }
+
+    public void deleteById(Long reservationId, User user) {
+        Reservation reservation = getReservationById(reservationId);
+        validateOwnReservation(user, reservation);
+
+        reservationRepository.deleteById(reservationId);
+    }
+
+    private static void validateOwnReservation(User user, Reservation reservation) {
+        if (!reservation.getUser().equals(user)) {
+            throw new UserBadRequestException();
+        }
+    }
+
+    private Reservation getReservationById(Long reservationId) {
+        return reservationRepository.findById(reservationId)
+                .orElseThrow(ReservationBadRequestException::new);
     }
 
     private Reservation convertToReservation(ReservationRequestDto requestDto, User member) {
