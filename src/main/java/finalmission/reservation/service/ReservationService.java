@@ -1,5 +1,6 @@
 package finalmission.reservation.service;
 
+import finalmission.member.exception.UserBadRequestException;
 import finalmission.reservation.Reservation;
 import finalmission.reservation.domain.dto.ReservationRequestDto;
 import finalmission.reservation.domain.dto.ReservationResponseDto;
@@ -52,7 +53,7 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(ReservationBadRequestException::new);
         if (!reservation.getUser().equals(user)) {
-            throw new ReservationBadRequestException();
+            throw new UserBadRequestException();
         }
 
         reservation.update(requestDto);
