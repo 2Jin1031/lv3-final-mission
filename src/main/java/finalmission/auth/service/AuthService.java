@@ -2,6 +2,7 @@ package finalmission.auth.service;
 
 import finalmission.auth.dto.LoginDto;
 import finalmission.auth.exception.InvalidTokenException;
+import finalmission.global.token.JwtTokenProvider;
 import finalmission.member.exception.NotFoundUserException;
 import finalmission.member.exception.UserBadRequestException;
 import finalmission.user.User;
