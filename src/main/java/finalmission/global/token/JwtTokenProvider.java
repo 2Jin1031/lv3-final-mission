@@ -1,5 +1,6 @@
-package finalmission.auth.service;
+package finalmission.global.token;
 
+import finalmission.auth.service.TokenInfoDto;
 import finalmission.global.exception.AuthorizationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
