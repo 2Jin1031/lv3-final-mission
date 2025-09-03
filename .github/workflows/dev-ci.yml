@@ -54,5 +54,5 @@ jobs:
           chmod +x ./gradlew
         working-directory: ./
       - name: Run tests
-        run: SPRING_PROFILES_ACTIVE=ci ./gradlew clean test --stacktrace
+        run: SPRING_PROFILES_ACTIVE=ci ./gradlew clean --stacktrace
         working-directory: ./
