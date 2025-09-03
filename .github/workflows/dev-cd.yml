@@ -67,6 +67,7 @@ jobs:
           DATASOURCE_USERNAME=${{ secrets.DATASOURCE_USERNAME }}
           DATASOURCE_PASSWORD=${{ secrets.DATASOURCE_PASSWORD }}
           DEV_DB_PASSWORD=${{ secrets.DEV_DB_PASSWORD }}
+          SPRING_PROFILES_ACTIVE=dev
           EOF
 
       - name: Stop existing services
