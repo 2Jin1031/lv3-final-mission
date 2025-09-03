@@ -14,3 +14,4 @@ ENV TZ=Asia/Seoul
 
 # 애플리케이션 실행
 ENTRYPOINT ["java", "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", "-Duser.timezone=Asia/Seoul", "-jar", "app.jar"]
+
