@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-      jdbc-url: ${DEV_DB_URL}
+      url: ${DEV_DB_URL}
       username: ${DEV_DB_USERNAME}
       password: ${DEV_DB_PASSWORD}
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -11,7 +11,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    open-in-view: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
