@@ -1,9 +1,9 @@
 name: prod-cd.yml
-
 on:
   push:
-    branches:
-      - 'main'
+    branches: [ "main" ]
+    paths:
+      - "**"
 
 jobs:
   build-and-push:
@@ -47,7 +47,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/mission:${{ github.sha }}
 
   deploy:
-    runs-on: [ self-hosted, linux, dev ]
+    runs-on: [ self-hosted, linux ]
     needs: build-and-push
     steps:
       - name: Stop and remove existing container
@@ -65,7 +65,9 @@ jobs:
           cat <<EOF > ~/mission/.env
           PROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }}
           PROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }}
-          PROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }}
+          PROD_DATASOURCE_PASSWORD=${{ secrets.DATASOURCE_PASSWORD }}
+          PROD_DEV_DB_PASSWORD=${{ secrets.PROD_DEV_DB_PASSWORD }}
+          SPRING_PROFILES_ACTIVE=prod
           EOF
 
       - name: Stop existing services
