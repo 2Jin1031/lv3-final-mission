@@ -15,7 +15,6 @@ spring:
     from: zkffl0@naver.com
     api-key: SG.로 시작하는 API Key
 
-
 security:
   jwt:
     token:
